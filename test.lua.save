@@ -1,0 +1,5 @@
+funcs[0] = function() return "node" end
+funcs = {}
+
+funcs[0] = function() return "hello" end
+print(funcs[0]())
