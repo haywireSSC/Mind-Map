@@ -336,11 +336,52 @@ func (s *Node) MoveFwdWord() {
 }
 
 func (s *Node) DeleteWordBack() {
-
+  for i := s.E.Pos-1; i > 0; i-- {
+    if s.E.Text[i] != ' ' && s.E.Text[i-1] == ' ' {
+      s.E.Text = s.E.Text[:i] + s.E.Text[s.E.Pos:]
+      s.E.Pos = i
+      return
+    }
+  }
+  s.E.Text = s.E.Text[s.E.Pos:]
+  s.E.Pos = 0
 }
 
 func (s *Node) DeleteWordFwd() {
+  for i := s.E.Pos+1; i < len(s.E.Text); i++ {
+    if s.E.Text[i-1] != ' ' && s.E.Text[i] == ' '{
+      s.E.Text = s.E.Text[:s.E.Pos] + s.E.Text[i:]
+      return
+    }
+  }
+  s.E.Text = s.E.Text[:s.E.Pos]
+}
 
+func (s *Node) MoveUp() {
+  before := strings.LastIndex(s.E.Text[:s.E.Pos], "\n")
+  if before == -1 {
+    s.E.Pos = 0
+    return
+  }
+  diff := s.E.Pos - before
+  next := strings.LastIndex(s.E.Text[:before], "\n")// + before
+  s.E.Pos = next + diff
+}
+
+func (s *Node) MoveDown() {
+  before := strings.LastIndex(s.E.Text[:s.E.Pos], "\n")
+  diff := s.E.Pos - before
+  next := strings.Index(s.E.Text[s.E.Pos:], "\n")
+  if next == -1 {
+    s.E.Pos = len(s.E.Text)
+    return
+  }
+  s.E.Pos += next + diff
+}
+
+type nestedIdx struct {
+  idx int
+  iIdx int
 }
 
 func (s *Node) Editor() {
@@ -404,26 +445,29 @@ func (s *Node) Editor() {
     }else {
       s.MoveBackWord()
     }
-  }else if rl.IsKeyPressed(rl.KeyUp) {//fix up(make up and downline split by \n then )
-    newpos := strings.LastIndex(s.E.Text[:s.E.Pos], "\n")
-    if newpos != -1 {
-      s.E.Pos = newpos
-    }
+  }else if rl.IsKeyPressed(rl.KeyUp) {
+    s.MoveUp()
   }else if rl.IsKeyPressed(rl.KeyDown) && s.E.Pos + 2 <= len(s.E.Text){
-    s.E.Text += "\n"
-    s.E.Pos += strings.Index(s.E.Text[s.E.Pos+1:], "\n") +1
-    s.E.Text = s.E.Text[:len(s.E.Text)-1]
+    s.MoveDown()
   }else if rl.IsKeyPressed(rl.KeyEnd) {
     if ctrl {
       s.E.Pos = len(s.E.Text)
     }else {
-
+      if val := strings.Index(s.E.Text[s.E.Pos:], "\n"); val != -1 {
+        s.E.Pos = val + s.E.Pos
+      }else {
+        s.E.Pos = len(s.E.Text)
+      }
     }
   }else if rl.IsKeyPressed(rl.KeyHome) {
     if ctrl {
       s.E.Pos = 0
     }else {
-
+      if val := strings.LastIndex(s.E.Text[:s.E.Pos], "\n"); val != -1 {
+        s.E.Pos = val+1
+      }else {
+        s.E.Pos = 0
+      }
     }
   }
 

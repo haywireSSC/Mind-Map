@@ -11,7 +11,7 @@ import (
 
 var L *lua.LState
 
-func MakeLuaAccesible(s *Node, key string) lua.LValue{
+func GetLuaAccesible(s *Node, key string) lua.LValue{
   switch key {
   case "x":
     return lua.LNumber(s.Pos.X)
@@ -20,6 +20,10 @@ func MakeLuaAccesible(s *Node, key string) lua.LValue{
   default:
     return lua.LString(fmt.Sprint(getAttr(s, key)))
   }
+}
+
+func SetLuaAccesible(s *Node, key string, value *lua.LUserData) {
+  fmt.Println(*value)
 }
 func getAttr(obj interface{}, fieldName string) reflect.Value {
     pointToStruct := reflect.ValueOf(obj) // addressable
@@ -34,6 +38,22 @@ func getAttr(obj interface{}, fieldName string) reflect.Value {
     return curField
 }
 
+func SetPropertyL(l *lua.LState) int{
+  nodeTable := l.Get(1).(*lua.LTable)
+  idL := nodeTable.RawGet(lua.LString("id"))
+  ID, _ := strconv.Atoi(lua.LVAsString(idL))
+
+  if ID == -1 {
+    l.Push(lua.LString("wrong node path!"))
+  }else {
+    property := l.ToString(2)
+    SetLuaAccesible(NODES[ID], property, l.ToUserData(3))
+    l.Push(lua.LString("set!"))//temp
+  }
+
+  return 1
+}
+
 func GetPropertyL(l *lua.LState) int{//gets a property by id, string name and returns it as string
   nodeTable := l.Get(1).(*lua.LTable)
   idL := nodeTable.RawGet(lua.LString("id"))
@@ -44,7 +64,7 @@ func GetPropertyL(l *lua.LState) int{//gets a property by id, string name and re
     l.Push(lua.LString("wrong node path!"))
   }else {
     property := l.ToString(2)
-    result := MakeLuaAccesible(NODES[ID], property)
+    result := GetLuaAccesible(NODES[ID], property)
     l.Push(result)
   }
   return 1
@@ -132,6 +152,7 @@ func StartLua() {
   L = lua.NewState()
   L.DoString("FUNCS = {}; NODES = {}")
   L.SetGlobal("get", L.NewFunction(GetPropertyL))
+  L.SetGlobal("set", L.NewFunction(SetPropertyL))
 }
 
 func ParseCode(ID int, text string){
