@@ -5,9 +5,11 @@ go 1.18
 require (
 	github.com/DataDog/go-python3 v0.0.0-20211102160307-40adc605f1fe // indirect
 	github.com/Shopify/go-lua v0.0.0-20220729171101-083ab0f3c60f // indirect
+	github.com/TheTitanrain/w32 v0.0.0-20180517000239-4f5cfb03fabf // indirect
 	github.com/gen2brain/raylib-go/raylib v0.0.0-20220922081930-a460a0fc06bb // indirect
 	github.com/h2non/filetype v1.1.3 // indirect
 	github.com/skanehira/clipboard-image v1.0.0 // indirect
+	github.com/sqweek/dialog v0.0.0-20220809060634-e981b270ebbf // indirect
 	github.com/yuin/gopher-lua v0.0.0-20220504180219-658193537a64 // indirect
 	golang.design/x/clipboard v0.6.2 // indirect
 	golang.org/x/exp v0.0.0-20220927162542-c76eaa363f9d // indirect

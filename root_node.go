@@ -25,8 +25,8 @@ type NodeTheme struct {
 }
 
 func NewRootNode() (inst RootNode) {//root node not got id or added proerly, redo root node where no proper rootnode
-  node := NewNode("node", rl.Vector2{0,0})
-  inst.node = &node
+  inst.node = NewNode("node", 0, 0, -1)
+  inst.node.ID = -1
 
   //Text, EditText, BG, EditBG rl.Color
   theme := NodeTheme{}
@@ -45,22 +45,22 @@ func NewRootNode() (inst RootNode) {//root node not got id or added proerly, red
   theme.Radius = 10
   theme.Margin = 5
 
-  node.Theme = theme
+  inst.node.Theme = theme
   return
 }
 
-func (s *RootNode) AddChild() {
-  node := NewNode(s.node.Name, CAMERA.MousePos)
+func (s *RootNode) AddChild() {//change to use newnodeex
+  node := NewNode(s.node.Name, CAMERA.MousePos.X, CAMERA.MousePos.Y, -1)
   node.GetID()
   ParseCode(node.ID, node.Name)
   node.Parent = s.node
   node.EnableEditing()
   node.Theme = ROOT.Theme
-  s.node.Childs = append(s.node.Childs, &node)
+  s.node.Childs = append(s.node.Childs, node)
 }
 
 func (s *RootNode) Update() {
-  if rl.IsKeyPressed(rl.KeyEnter) && (rl.IsKeyDown(rl.KeyLeftShift) || rl.IsKeyDown(rl.KeyRightShift)){
+  if rl.IsKeyPressed(rl.KeyEnter) && CAMERA.shift{
     s.AddChild()
   }
 

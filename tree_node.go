@@ -40,11 +40,23 @@ type Node struct {
   startDrag rl.Vector2
 }
 
-func NewNode(name string, pos rl.Vector2) (inst Node) {
-  inst.Pos = pos
+func NewNode(name string, x, y float32, id int) (inst *Node) {
+  inst = &Node{}
+  inst.Pos.X = x
+  inst.Pos.Y = y
   inst.Name = name
   inst.E.Text = name
   inst.codeCooldown = Cooldown{0, 0}
+  if id == -1 {
+    inst.GetID()
+  }else {
+    inst.ID = id
+    if id > MAX_ID {
+      MAX_ID = id
+    }
+    NODES[id] = inst
+  }
+  ParseCode(inst.ID, inst.Name)
   return
 }
 
@@ -57,7 +69,7 @@ func (s *Node) DoAlignment() {
 
     if l.isAlignX {
       if isRoot {
-        if s.Parent != ROOT {
+        if s.Parent.ID != ROOT.ID {
           l.alignX = s.Parent.Pos.X
         }else {
           l.alignX = s.Pos.X
@@ -66,7 +78,7 @@ func (s *Node) DoAlignment() {
       s.Pos.X = l.alignX
     }else if l.isAlignY {
       if isRoot {
-        if s.Parent != ROOT {
+        if s.Parent.ID != ROOT.ID {
           l.alignY = s.Parent.Pos.Y
         }else {
           l.alignY = s.Pos.Y
@@ -100,20 +112,26 @@ func (s *Node) ToggleAlign() {
   }
 }
 
+func NewNodeEx() *Node {
+  node := NewNode(ROOT.Name, 0, 0, -1)
+  node.Theme = ROOT.Theme
+  //node.CenterOn(CAMERA.MousePos)
+  //node.StartDrag()
+  return node
+}
+
 func (s *Node) AddChild() *Node {
   fmt.Println("added child")
-  node := NewNode(ROOT.Name, s.Pos)
+  node := NewNodeEx()
   node.Parent = s
   node.EnableEditing()
-  node.Theme = ROOT.Theme
   node.CenterOn(CAMERA.MousePos)
   node.StartDrag()
-  node.GetID()
-  ParseCode(node.ID, node.Name)
+
+  node.EnableEditing()
   node.invertedLine = !s.invertedLine
-  child := &node
-  s.Childs = append(s.Childs, child)
-  return child
+  s.Childs = append(s.Childs, node)
+  return node
 }
 func (s *Node) GetChildByName(name string) *Node {
   for _, v := range s.Childs {
@@ -143,7 +161,7 @@ func (s *Node) MakeList(id int) {
   //recurse back to root
   s.ListID = id
   s.isList = true
-  if s.Parent != ROOT && !s.Parent.isList {
+  if s.Parent.ID != ROOT.ID && !s.Parent.isList {
     s.Parent.listNext = s
     s.Parent.MakeList(id)
   }else {
@@ -181,7 +199,7 @@ func (s *Node) AddToList() (id int){
       s.SplitList(GetListID(), true)
     }
   }else {
-    if s.Parent != ROOT {
+    if s.Parent.ID != ROOT.ID {
       id = s.Parent.AddToList()
       //been branched or not
       if s.Parent.listNext == nil {
@@ -386,8 +404,8 @@ type nestedIdx struct {
 
 func (s *Node) Editor() {
   key := rl.GetCharPressed()
-  ctrl := rl.IsKeyDown(rl.KeyLeftControl) || rl.IsKeyDown(rl.KeyRightControl)
-  shift := rl.IsKeyDown(rl.KeyLeftShift) || rl.IsKeyDown(rl.KeyRightShift)
+  ctrl := CAMERA.ctrl
+  shift := CAMERA.shift
   //pasting
   if rl.IsKeyPressed(rl.KeyV) && ctrl {
     rl.UnloadTexture(s.Tex)
@@ -401,7 +419,7 @@ func (s *Node) Editor() {
     s.AddLetter("\n")
   }
   //typing
-  if key != 0 {
+  if key != 0 && !ctrl{
     s.AddLetter(string(key))
 
   //backspacing
@@ -528,8 +546,23 @@ func (s *Node) Draw() {
 func (s *Node) Destroy() {
   //remove self from parent
   i := slices.Index(s.Parent.Childs, s)
-  s.Parent.Childs = slices.Delete(s.Parent.Childs, i, i+1)
-  // add back in all the children as childs of root
+  delete(NODES, s.ID)//free'd id's still unusable
+  RemoveLua(s.ID)
+  if s.isList {
+    delete(LISTS, s.ListID)
+    if s.Parent.isList && s.Parent.ListID == s.ListID {
+      s.Parent.listNext = s.listNext
+    }
+  }
+  if s.hasImg {
+    rl.UnloadTexture(s.Tex)
+  }
+  if i == -1 {
+    fmt.Println("huh, not in parents childs?")
+  }else {
+    s.Parent.Childs = slices.Delete(s.Parent.Childs, i, i+1)
+  }
+  // add back in all the children as childs of parent
   for _, v := range s.Childs {
     v.Parent = s.Parent
   }

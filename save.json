@@ -1,0 +1,475 @@
+{
+ "Root": {
+  "X": 0,
+  "Y": 0,
+  "Text": "node",
+  "ID": 1,
+  "Childs": [
+   {
+    "X": 663,
+    "Y": 111,
+    "Text": "node",
+    "ID": 3,
+    "Childs": [
+     {
+      "X": 939.5,
+      "Y": 108,
+      "Text": "node",
+      "ID": 4,
+      "Childs": [
+       {
+        "X": 1152.5,
+        "Y": 110,
+        "Text": "node",
+        "ID": 5,
+        "Childs": [
+         {
+          "X": 1430.5,
+          "Y": 95,
+          "Text": "node",
+          "ID": 6,
+          "Childs": [
+           {
+            "X": 1435.5,
+            "Y": 191,
+            "Text": "node",
+            "ID": 7,
+            "Childs": [
+             {
+              "X": 1426.5,
+              "Y": 285,
+              "Text": "node",
+              "ID": 8,
+              "Childs": [
+               {
+                "X": 1062.5,
+                "Y": 315,
+                "Text": "node",
+                "ID": 9,
+                "Childs": [
+                 {
+                  "X": 830.5,
+                  "Y": 308,
+                  "Text": "node",
+                  "ID": 10,
+                  "Childs": [
+                   {
+                    "X": 596.5,
+                    "Y": 269,
+                    "Text": "node",
+                    "ID": 11,
+                    "Childs": [
+                     {
+                      "X": 421.5,
+                      "Y": 240,
+                      "Text": "node",
+                      "ID": 12,
+                      "Childs": null,
+                      "Theme": {
+                       "Text": {
+                        "R": 255,
+                        "G": 255,
+                        "B": 255,
+                        "A": 255
+                       },
+                       "EditText": {
+                        "R": 0,
+                        "G": 0,
+                        "B": 0,
+                        "A": 255
+                       },
+                       "BG": {
+                        "R": 0,
+                        "G": 0,
+                        "B": 0,
+                        "A": 255
+                       },
+                       "EditBG": {
+                        "R": 255,
+                        "G": 211,
+                        "B": 41,
+                        "A": 255
+                       },
+                       "Circle": false,
+                       "Rounded": true,
+                       "FontSize": 16,
+                       "FontSpacing": 1,
+                       "Radius": 10,
+                       "Margin": 5
+                      },
+                      "IsList": false,
+                      "ListNextID": 0,
+                      "ListID": 0
+                     }
+                    ],
+                    "Theme": {
+                     "Text": {
+                      "R": 255,
+                      "G": 255,
+                      "B": 255,
+                      "A": 255
+                     },
+                     "EditText": {
+                      "R": 0,
+                      "G": 0,
+                      "B": 0,
+                      "A": 255
+                     },
+                     "BG": {
+                      "R": 0,
+                      "G": 0,
+                      "B": 0,
+                      "A": 255
+                     },
+                     "EditBG": {
+                      "R": 255,
+                      "G": 211,
+                      "B": 41,
+                      "A": 255
+                     },
+                     "Circle": false,
+                     "Rounded": true,
+                     "FontSize": 16,
+                     "FontSpacing": 1,
+                     "Radius": 10,
+                     "Margin": 5
+                    },
+                    "IsList": false,
+                    "ListNextID": 0,
+                    "ListID": 0
+                   }
+                  ],
+                  "Theme": {
+                   "Text": {
+                    "R": 255,
+                    "G": 255,
+                    "B": 255,
+                    "A": 255
+                   },
+                   "EditText": {
+                    "R": 0,
+                    "G": 0,
+                    "B": 0,
+                    "A": 255
+                   },
+                   "BG": {
+                    "R": 0,
+                    "G": 0,
+                    "B": 0,
+                    "A": 255
+                   },
+                   "EditBG": {
+                    "R": 255,
+                    "G": 211,
+                    "B": 41,
+                    "A": 255
+                   },
+                   "Circle": false,
+                   "Rounded": true,
+                   "FontSize": 16,
+                   "FontSpacing": 1,
+                   "Radius": 10,
+                   "Margin": 5
+                  },
+                  "IsList": false,
+                  "ListNextID": 0,
+                  "ListID": 0
+                 }
+                ],
+                "Theme": {
+                 "Text": {
+                  "R": 255,
+                  "G": 255,
+                  "B": 255,
+                  "A": 255
+                 },
+                 "EditText": {
+                  "R": 0,
+                  "G": 0,
+                  "B": 0,
+                  "A": 255
+                 },
+                 "BG": {
+                  "R": 0,
+                  "G": 0,
+                  "B": 0,
+                  "A": 255
+                 },
+                 "EditBG": {
+                  "R": 255,
+                  "G": 211,
+                  "B": 41,
+                  "A": 255
+                 },
+                 "Circle": false,
+                 "Rounded": true,
+                 "FontSize": 16,
+                 "FontSpacing": 1,
+                 "Radius": 10,
+                 "Margin": 5
+                },
+                "IsList": false,
+                "ListNextID": 0,
+                "ListID": 0
+               }
+              ],
+              "Theme": {
+               "Text": {
+                "R": 255,
+                "G": 255,
+                "B": 255,
+                "A": 255
+               },
+               "EditText": {
+                "R": 0,
+                "G": 0,
+                "B": 0,
+                "A": 255
+               },
+               "BG": {
+                "R": 0,
+                "G": 0,
+                "B": 0,
+                "A": 255
+               },
+               "EditBG": {
+                "R": 255,
+                "G": 211,
+                "B": 41,
+                "A": 255
+               },
+               "Circle": false,
+               "Rounded": true,
+               "FontSize": 16,
+               "FontSpacing": 1,
+               "Radius": 10,
+               "Margin": 5
+              },
+              "IsList": false,
+              "ListNextID": 0,
+              "ListID": 0
+             }
+            ],
+            "Theme": {
+             "Text": {
+              "R": 255,
+              "G": 255,
+              "B": 255,
+              "A": 255
+             },
+             "EditText": {
+              "R": 0,
+              "G": 0,
+              "B": 0,
+              "A": 255
+             },
+             "BG": {
+              "R": 0,
+              "G": 0,
+              "B": 0,
+              "A": 255
+             },
+             "EditBG": {
+              "R": 255,
+              "G": 211,
+              "B": 41,
+              "A": 255
+             },
+             "Circle": false,
+             "Rounded": true,
+             "FontSize": 16,
+             "FontSpacing": 1,
+             "Radius": 10,
+             "Margin": 5
+            },
+            "IsList": false,
+            "ListNextID": 0,
+            "ListID": 0
+           }
+          ],
+          "Theme": {
+           "Text": {
+            "R": 255,
+            "G": 255,
+            "B": 255,
+            "A": 255
+           },
+           "EditText": {
+            "R": 0,
+            "G": 0,
+            "B": 0,
+            "A": 255
+           },
+           "BG": {
+            "R": 0,
+            "G": 0,
+            "B": 0,
+            "A": 255
+           },
+           "EditBG": {
+            "R": 255,
+            "G": 211,
+            "B": 41,
+            "A": 255
+           },
+           "Circle": false,
+           "Rounded": true,
+           "FontSize": 16,
+           "FontSpacing": 1,
+           "Radius": 10,
+           "Margin": 5
+          },
+          "IsList": false,
+          "ListNextID": 0,
+          "ListID": 0
+         }
+        ],
+        "Theme": {
+         "Text": {
+          "R": 255,
+          "G": 255,
+          "B": 255,
+          "A": 255
+         },
+         "EditText": {
+          "R": 0,
+          "G": 0,
+          "B": 0,
+          "A": 255
+         },
+         "BG": {
+          "R": 0,
+          "G": 0,
+          "B": 0,
+          "A": 255
+         },
+         "EditBG": {
+          "R": 255,
+          "G": 211,
+          "B": 41,
+          "A": 255
+         },
+         "Circle": false,
+         "Rounded": true,
+         "FontSize": 16,
+         "FontSpacing": 1,
+         "Radius": 10,
+         "Margin": 5
+        },
+        "IsList": false,
+        "ListNextID": 0,
+        "ListID": 0
+       }
+      ],
+      "Theme": {
+       "Text": {
+        "R": 255,
+        "G": 255,
+        "B": 255,
+        "A": 255
+       },
+       "EditText": {
+        "R": 0,
+        "G": 0,
+        "B": 0,
+        "A": 255
+       },
+       "BG": {
+        "R": 0,
+        "G": 0,
+        "B": 0,
+        "A": 255
+       },
+       "EditBG": {
+        "R": 255,
+        "G": 211,
+        "B": 41,
+        "A": 255
+       },
+       "Circle": false,
+       "Rounded": true,
+       "FontSize": 16,
+       "FontSpacing": 1,
+       "Radius": 10,
+       "Margin": 5
+      },
+      "IsList": false,
+      "ListNextID": 0,
+      "ListID": 0
+     }
+    ],
+    "Theme": {
+     "Text": {
+      "R": 255,
+      "G": 255,
+      "B": 255,
+      "A": 255
+     },
+     "EditText": {
+      "R": 0,
+      "G": 0,
+      "B": 0,
+      "A": 255
+     },
+     "BG": {
+      "R": 0,
+      "G": 0,
+      "B": 0,
+      "A": 255
+     },
+     "EditBG": {
+      "R": 255,
+      "G": 211,
+      "B": 41,
+      "A": 255
+     },
+     "Circle": false,
+     "Rounded": true,
+     "FontSize": 16,
+     "FontSpacing": 1,
+     "Radius": 10,
+     "Margin": 5
+    },
+    "IsList": false,
+    "ListNextID": 0,
+    "ListID": 0
+   }
+  ],
+  "Theme": {
+   "Text": {
+    "R": 255,
+    "G": 255,
+    "B": 255,
+    "A": 255
+   },
+   "EditText": {
+    "R": 0,
+    "G": 0,
+    "B": 0,
+    "A": 255
+   },
+   "BG": {
+    "R": 0,
+    "G": 0,
+    "B": 0,
+    "A": 255
+   },
+   "EditBG": {
+    "R": 255,
+    "G": 211,
+    "B": 41,
+    "A": 255
+   },
+   "Circle": false,
+   "Rounded": true,
+   "FontSize": 16,
+   "FontSpacing": 1,
+   "Radius": 10,
+   "Margin": 5
+  },
+  "IsList": false,
+  "ListNextID": 0,
+  "ListID": 0
+ },
+ "Lists": {}
+}

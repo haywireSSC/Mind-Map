@@ -1,5 +1,3 @@
-
-
 package main
 import (
   "github.com/gen2brain/raylib-go/raylib"
@@ -16,6 +14,9 @@ type EditorCamera struct {
 
   doubleClickTimeout float64
   lastClick float64
+
+  ctrl bool
+  shift bool
 }
 
 func NewEditorCamera() (inst EditorCamera){
@@ -31,7 +32,20 @@ func (s *EditorCamera) RefreshTarget() {
   s.Cam.Target = s.MousePos
 }
 
+func CheckSaveLoad() {
+  if rl.IsKeyPressed(rl.KeyS) && CAMERA.ctrl {
+    Save()
+  }else if rl.IsKeyPressed(rl.KeyO) && CAMERA.ctrl {
+    Load()
+  }
+}
+
 func (s *EditorCamera) Update() {
+  s.ctrl = rl.IsKeyDown(rl.KeyLeftControl) || rl.IsKeyDown(rl.KeyRightControl)
+  s.shift = rl.IsKeyDown(rl.KeyLeftShift) || rl.IsKeyDown(rl.KeyRightShift)
+
+  CheckSaveLoad()
+
   s.MousePos = rl.GetScreenToWorld2D(rl.GetMousePosition(), s.Cam)
   wheelDelta := rl.GetMouseWheelMove()
   if wheelDelta != 0 {

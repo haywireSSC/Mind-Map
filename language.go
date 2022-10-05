@@ -148,11 +148,18 @@ func RunLua(ID int) string{//make nodes both run and addlua(done), just fixing n
   return str
 }
 
+func RemoveLua(ID int) {//store the table
+  L.GetGlobal("FUNCS").(*lua.LTable).RawSetInt(ID, lua.LNil)
+}
+
 func StartLua() {
   L = lua.NewState()
-  L.DoString("FUNCS = {}; NODES = {}")
+  ResetLua()
   L.SetGlobal("get", L.NewFunction(GetPropertyL))
   L.SetGlobal("set", L.NewFunction(SetPropertyL))
+}
+func ResetLua() {
+  L.DoString("FUNCS = {}; NODES = {}")
 }
 
 func ParseCode(ID int, text string){

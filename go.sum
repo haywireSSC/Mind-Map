@@ -3,6 +3,8 @@ github.com/DataDog/go-python3 v0.0.0-20211102160307-40adc605f1fe h1:bNMi0HArOQY4
 github.com/DataDog/go-python3 v0.0.0-20211102160307-40adc605f1fe/go.mod h1:7ctnOCLiUlwKO9GvAjusUF68edSbiHqC18gVPQF0ojA=
 github.com/Shopify/go-lua v0.0.0-20220729171101-083ab0f3c60f h1:SrKWqxkpd2bFC5EM8lQR/laInV/cZ4YCJTDFKoDsG2E=
 github.com/Shopify/go-lua v0.0.0-20220729171101-083ab0f3c60f/go.mod h1:1cxA/QL5xgRGP7Crq6tXSOY4eo//me8GHGMyypHynM8=
+github.com/TheTitanrain/w32 v0.0.0-20180517000239-4f5cfb03fabf h1:FPsprx82rdrX2jiKyS17BH6IrTmUBYqZa/CXT4uvb+I=
+github.com/TheTitanrain/w32 v0.0.0-20180517000239-4f5cfb03fabf/go.mod h1:peYoMncQljjNS6tZwI9WVyQB3qZS6u79/N3mBOcnd3I=
 github.com/gen2brain/raylib-go v4.2.0+incompatible h1:X/ZjLEsFPRBeu0VWvchKc/ZnUOXtZm3RUOZ0BqakrLQ=
 github.com/gen2brain/raylib-go v4.2.0+incompatible/go.mod h1:LUVRDQbnxUaOgzLzW5lMS+IcbqlXHIqIA9wq8wxzmcA=
 github.com/gen2brain/raylib-go/raylib v0.0.0-20220829124729-25ea53bfbb90 h1:EC1Xe3xRd771GGxXi8vJeS3ZWhYGBxnH2rHA1kRFwcQ=
@@ -15,6 +17,8 @@ github.com/lachee/raylib-goplus v0.0.0-20200605081007-7ca39b8afc71 h1:H4fcwldyU7
 github.com/lachee/raylib-goplus v0.0.0-20200605081007-7ca39b8afc71/go.mod h1:dBwvFApqhdnnQuWzvHZnvWph/zlTAHC3nd/Hy6yBE8U=
 github.com/skanehira/clipboard-image v1.0.0 h1:MJ5PeXxDMteS0HCsjvuoMscBi+AtoqCiPX7bZ2OAxDE=
 github.com/skanehira/clipboard-image v1.0.0/go.mod h1:WAxMgBkENpa206RHfrqV/5y8Kq7CitAozlvVxQxa9gs=
+github.com/sqweek/dialog v0.0.0-20220809060634-e981b270ebbf h1:pCxn3BCfu8n8VUhYl4zS1BftoZoYY0J4qVF3dqAQ4aU=
+github.com/sqweek/dialog v0.0.0-20220809060634-e981b270ebbf/go.mod h1:/qNPSY91qTz/8TgHEMioAUc6q7+3SOybeKczHMXFcXw=
 github.com/yuin/goldmark v1.3.5/go.mod h1:mwnBkeHKe2W/ZEtQ+71ViKU8L12m81fl3OWwC1Zlc8k=
 github.com/yuin/gopher-lua v0.0.0-20220504180219-658193537a64 h1:5mLPGnFdSsevFRFc9q3yYbBkB6tsm4aCwwQV/j1JQAQ=
 github.com/yuin/gopher-lua v0.0.0-20220504180219-658193537a64/go.mod h1:GBR0iDaNXjAgGg9zfCvksxSRnQx76gclCIb7kdAd1Pw=

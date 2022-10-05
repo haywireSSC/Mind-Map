@@ -77,7 +77,7 @@ func (s *LineRenderer) Draw() {
 }
 
 func (s *Node) DrawLines(cols map[int]Outline, outlines map[int]Outline) {
-  if s != ROOT && s.Parent != ROOT {
+  if s.ID != ROOT.ID && s.Parent.ID != ROOT.ID {
     var l Outline
     if s.isList {
       l = outlines[s.ListID]
