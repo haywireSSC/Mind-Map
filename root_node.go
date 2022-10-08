@@ -1,107 +1,114 @@
 package main
+
 import (
-  "github.com/gen2brain/raylib-go/raylib"
+	rl "github.com/gen2brain/raylib-go/raylib"
 )
 
 type RootNode struct {
-  root *Node
-  EditedNode *Node
+	root       *Node
+	EditedNode *Node
 }
 
 type NodeTheme struct {
-  Text rl.Color
-  EditText rl.Color
-  BG rl.Color
-  EditBG rl.Color
+	Text     rl.Color
+	EditText rl.Color
+	BG       rl.Color
+	EditBG   rl.Color
 
-  Circle bool
-  Rounded bool
+	Circle  bool
+	Rounded bool
 
-  FontSize float32
-  FontSpacing float32
+	FontSize    float32
+	FontSpacing float32
 
-  Radius float32
-  Margin int32
+	Radius float32
+	Margin int32
 }
 
-func NewRootNode() (inst RootNode) {//root node not got id or added proerly, redo root node where no proper rootnode
-  inst.root = NewNode("node", 0, 0, -1)
-  inst.root.Flags.IsNested = true
+func NewRootNode() (inst RootNode) { //root node not got id or added proerly, redo root node where no proper rootnode
+	inst.root = NewNode("node", 0, 0, -1)
+	inst.root.Flags.IsNested = true
 
-  //Text, EditText, BG, EditBG rl.Color
-  theme := NodeTheme{}
+	//Text, EditText, BG, EditBG rl.Color
+	theme := NodeTheme{}
 
-  theme.Text = PALETTE["White"]
-  theme.EditText = PALETTE["Northern"]
-  theme.BG = PALETTE["Northern"]
-  theme.EditBG = PALETTE["Circle"]
+	theme.Text = PALETTE["White"]
+	theme.EditText = PALETTE["Northern"]
+	theme.BG = PALETTE["Northern"]
+	theme.EditBG = PALETTE["Circle"]
 
-  theme.Circle = false
-  theme.Rounded = true
+	theme.Circle = false
+	theme.Rounded = true
 
-  theme.FontSize = 16
-  theme.FontSpacing = 1
+	theme.FontSize = 16
+	theme.FontSpacing = 1
 
-  theme.Radius = 10
-  theme.Margin = 5
+	theme.Radius = 10
+	theme.Margin = 5
 
-  inst.root.Theme = theme
-  return
+	inst.root.Theme = theme
+	return
 }
 
-func (s *RootNode) AddChild() {//change to use newnodeex
-  node := NewNode(NODES[ROOT].Name, CAMERA.MousePos.X, CAMERA.MousePos.Y, -1)
-  ParseCode(node.ID, node.Name)
-  node.Parent = NODES[ROOT]
-  node.EnableEditing()
-  node.Theme = NODES[ROOT].Theme
-  NODES[ROOT].Childs = append(NODES[ROOT].Childs, node)
+func (s *RootNode) AddChild() { //change to use newnodeex
+	node := NewNode(NODES[ROOT].Name, CAMERA.MousePos.X, CAMERA.MousePos.Y, -1)
+	AddLua(node, node.Name)
+	node.Parent = NODES[ROOT]
+	node.EnableEditing()
+	node.Theme = NODES[ROOT].Theme
+	NODES[ROOT].Childs = append(NODES[ROOT].Childs, node)
 }
 
-func (s *Node) GetPath() string{
-  if s.Parent == nil {
-    return "/"
-  }
-  path := s.Parent.GetPath()
-  path += s.Name + "/"
+func (s *Node) GetPath() string {
+	if s.Parent == nil {
+		return "/"
+	}
+	path := s.Parent.GetPath()
+	path += s.Name + "/"
 
-  return path
+	return path
 }
 
 func FindOuter(s *Node) *Node {
-  if s.Parent == nil {
-    return s
-  }else if s.Parent.Flags.IsNested {
-    return s.Parent
-  }else {
-    return FindOuter(s.Parent)
-  }
+	if s.Parent == nil {
+		return s
+	} else if s.Parent.Flags.IsNested {
+		return s.Parent
+	} else {
+		return FindOuter(s.Parent)
+	}
 }
 
 func (s *RootNode) Update() {
 
-  rl.ClearBackground(PALETTE["White"])
+	rl.ClearBackground(PALETTE["White"])
 
-  rl.BeginMode2D(CAMERA.Cam)
+	rl.BeginMode2D(CAMERA.Cam)
 
-  LINE_RENDERER.Draw()
+	LINE_RENDERER.Draw()
 
-  if rl.IsKeyPressed(rl.KeyEnter) && CAMERA.shift{
-    s.AddChild()
-  }else if rl.IsKeyPressed(rl.KeyEscape) {
-    ROOT = FindOuter(NODES[ROOT]).ID
-  }
+	if rl.IsKeyPressed(rl.KeyEnter) && CAMERA.shift {
+		s.AddChild()
+	} else if rl.IsKeyPressed(rl.KeyEscape) {
+		proot := NODES[ROOT]
+		ROOT = FindOuter(NODES[ROOT]).ID
 
-  for _, v := range NODES[ROOT].Childs {
-    v.Update()
-  }
+		if s.root.ID != proot.ID {
+			proot.EnableEditing()
+		}
+	}
 
-  rl.EndMode2D()
+	for _, v := range NODES[ROOT].Childs {
+		v.Update()
+	}
 
-  path := NODES[ROOT].GetPath()
-  var tPos rl.Vector2
-  tSize := rl.MeasureTextEx(FONT, path, 32, 4)
-  tPos.X = float32(rl.GetScreenWidth())/2 - tSize.X/2
-  tPos.Y = float32(rl.GetScreenHeight()) - tSize.Y
-  rl.DrawTextEx(FONT, path, tPos, 32, 4, PALETTE["Northern"])
+	rl.EndMode2D()
+
+	path := "«" + NODES[ROOT].GetPath() + "»" //problems with symbols
+	var tPos rl.Vector2
+	tSize := rl.MeasureTextEx(FONT, path, 32, 4)
+	tPos.X = float32(rl.GetScreenWidth())/2 - tSize.X/2
+	tPos.Y = float32(rl.GetScreenHeight()) - tSize.Y
+	//fmt.Println(path)
+	rl.DrawTextEx(FONT, path, tPos, 32, 4, PALETTE["Northern"])
 }
