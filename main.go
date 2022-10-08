@@ -5,11 +5,12 @@ import (
 )
 var (
   CAMERA EditorCamera
-  ROOT *Node
+  ROOT int
   NODES map[int]*Node = make(map[int]*Node)
   HANDLER RootNode
   LINE_RENDERER LineRenderer
   FONT rl.Font
+  SYMBOL_FONT rl.Font
   MAX_ID int
   MAX_LISTID int
   LISTS map[int]*List = make(map[int]*List)
@@ -26,9 +27,12 @@ func main() {
 
   SetupClipboard()
 
+  rl.SetExitKey(0)
+
   FONT = rl.LoadFont("johnston-itc-std-bold.otf")
+  SYMBOL_FONT = rl.LoadFont("RailwayAlternate.otf")
   HANDLER = NewRootNode()
-  ROOT = HANDLER.node
+  ROOT = HANDLER.root.ID
   CAMERA = NewEditorCamera()
   LINE_RENDERER = NewLineRenderer()
 
@@ -40,12 +44,8 @@ func main() {
 
 
     rl.BeginDrawing()
-    rl.ClearBackground(rl.White)
 
-    rl.BeginMode2D(CAMERA.Cam)
-    LINE_RENDERER.Draw()
     HANDLER.Update()
-    rl.EndMode2D()
 
     rl.EndDrawing()
   }

@@ -21,9 +21,15 @@ func GetLuaAccesible(s *Node, key string) lua.LValue{
     return lua.LString(fmt.Sprint(getAttr(s, key)))
   }
 }
-
-func SetLuaAccesible(s *Node, key string, value *lua.LUserData) {
-  fmt.Println(*value)
+//{{set($, "x", 5), get($, "x") -> 5}}
+func SetLuaAccesible(s *Node, key string, value lua.LValue) {
+  switch key {
+  case "x":
+    s.Pos.X = float32(value.(lua.LNumber))
+  case "y":
+    s.Pos.Y = float32(value.(lua.LNumber))
+  }
+  //fmt.Println(value.(*lua.LUserData).Value, "hi")
 }
 func getAttr(obj interface{}, fieldName string) reflect.Value {
     pointToStruct := reflect.ValueOf(obj) // addressable
@@ -42,13 +48,13 @@ func SetPropertyL(l *lua.LState) int{
   nodeTable := l.Get(1).(*lua.LTable)
   idL := nodeTable.RawGet(lua.LString("id"))
   ID, _ := strconv.Atoi(lua.LVAsString(idL))
-
+  fmt.Println(ID)
   if ID == -1 {
     l.Push(lua.LString("wrong node path!"))
   }else {
     property := l.ToString(2)
-    SetLuaAccesible(NODES[ID], property, l.ToUserData(3))
-    l.Push(lua.LString("set!"))//temp
+    SetLuaAccesible(NODES[ID], property, l.Get(3))
+    l.Push(lua.LString("test"))//temp
   }
 
   return 1
@@ -86,7 +92,7 @@ func DoPath(origin *Node, path string) (result *Node){// implement this, relativ
   var start int
   if path[0] == '$' {
     if pathLen > 1 && path[1] == '$' {
-      result = ROOT
+      result = NODES[ROOT]
       start = 2
       if pathLen == 2 {
         return

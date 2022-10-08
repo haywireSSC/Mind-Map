@@ -1,13 +1,9 @@
 package main
-import (
-)
 
 type LineRenderer struct {
-  root *Node
 }
 
 func NewLineRenderer() (inst LineRenderer) {
-  inst.root = ROOT
   return
 }
 
@@ -47,7 +43,7 @@ type line struct {
 func (s *LineRenderer) Draw() {
   ids := []int{}
   listids := []int{}
-  s.root.TotalIDs(&ids, &listids)
+  NODES[ROOT].TotalIDs(&ids, &listids)
 
   cols := make(map[int]Outline)
   outlines := make(map[int]Outline)
@@ -73,11 +69,11 @@ func (s *LineRenderer) Draw() {
     pv = v
   }
 
-  s.root.DrawLines(cols, outlines)
+  NODES[ROOT].DrawLines(cols, outlines)
 }
 
 func (s *Node) DrawLines(cols map[int]Outline, outlines map[int]Outline) {
-  if s.ID != ROOT.ID && s.Parent.ID != ROOT.ID {
+  if s.ID != ROOT && s.Parent.ID != ROOT {
     var l Outline
     if s.isList {
       l = outlines[s.ListID]
@@ -86,8 +82,10 @@ func (s *Node) DrawLines(cols map[int]Outline, outlines map[int]Outline) {
     }
     DrawPath(FindEdge(s, s.Parent), FindEdge(s.Parent, s), s.invertedLine, PALETTE[l.Inner], s.isList, PALETTE[l.Outer])
   }
-  for _, v := range s.Childs {
-    v.DrawLines(cols, outlines)
+  if !s.Flags.IsNested || s.ID == ROOT {
+    for _, v := range s.Childs {
+      v.DrawLines(cols, outlines)
+    }
   }
 }
 

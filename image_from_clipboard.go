@@ -39,3 +39,8 @@ func TextureFromClipboard() (tex rl.Texture2D) {
   }
   return
 }
+
+func TextFromClipboard() string {
+  data := clipboard.Read(clipboard.FmtText)
+  return string(data)
+}

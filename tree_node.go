@@ -38,6 +38,8 @@ type Node struct {
   dragging bool
   dragOffset rl.Vector2
   startDrag rl.Vector2
+
+  Flags NodeFlags
 }
 
 func NewNode(name string, x, y float32, id int) (inst *Node) {
@@ -46,18 +48,22 @@ func NewNode(name string, x, y float32, id int) (inst *Node) {
   inst.Pos.Y = y
   inst.Name = name
   inst.E.Text = name
+  //inst.Flags = NodeFlags{true, true}
   inst.codeCooldown = Cooldown{0, 0}
   if id == -1 {
-    inst.GetID()
+    MAX_ID += 1
+    NODES[MAX_ID] = inst
+    inst.ID = MAX_ID
   }else {
     inst.ID = id
     if id > MAX_ID {
       MAX_ID = id
     }
+
     NODES[id] = inst
   }
   ParseCode(inst.ID, inst.Name)
-  return
+  return inst
 }
 
 func (s *Node) DoAlignment() {
@@ -69,7 +75,7 @@ func (s *Node) DoAlignment() {
 
     if l.isAlignX {
       if isRoot {
-        if s.Parent.ID != ROOT.ID {
+        if s.Parent.ID != ROOT {
           l.alignX = s.Parent.Pos.X
         }else {
           l.alignX = s.Pos.X
@@ -78,7 +84,7 @@ func (s *Node) DoAlignment() {
       s.Pos.X = l.alignX
     }else if l.isAlignY {
       if isRoot {
-        if s.Parent.ID != ROOT.ID {
+        if s.Parent.ID != ROOT {
           l.alignY = s.Parent.Pos.Y
         }else {
           l.alignY = s.Pos.Y
@@ -113,8 +119,8 @@ func (s *Node) ToggleAlign() {
 }
 
 func NewNodeEx() *Node {
-  node := NewNode(ROOT.Name, 0, 0, -1)
-  node.Theme = ROOT.Theme
+  node := NewNode(NODES[ROOT].Name, 0, 0, -1)
+  node.Theme = NODES[ROOT].Theme
   //node.CenterOn(CAMERA.MousePos)
   //node.StartDrag()
   return node
@@ -142,14 +148,6 @@ func (s *Node) GetChildByName(name string) *Node {
   return nil
 }
 
-
-func (s *Node) GetID() int {
-  MAX_ID += 1
-  NODES[MAX_ID] = s
-  s.ID = MAX_ID
-  return MAX_ID
-}
-
 func (s *Node) CenterOn(center rl.Vector2) {
   s.UpdateRect()
   s.Pos = center
@@ -161,7 +159,7 @@ func (s *Node) MakeList(id int) {
   //recurse back to root
   s.ListID = id
   s.isList = true
-  if s.Parent.ID != ROOT.ID && !s.Parent.isList {
+  if s.Parent.ID != ROOT && !s.Parent.isList {
     s.Parent.listNext = s
     s.Parent.MakeList(id)
   }else {
@@ -199,7 +197,7 @@ func (s *Node) AddToList() (id int){
       s.SplitList(GetListID(), true)
     }
   }else {
-    if s.Parent.ID != ROOT.ID {
+    if s.Parent.ID != ROOT {
       id = s.Parent.AddToList()
       //been branched or not
       if s.Parent.listNext == nil {
@@ -321,9 +319,10 @@ func (s *Node) Update() {
   if s.codeCooldown.tick() && !s.E.IsEditing {
     s.Name = RunLua(s.ID)
   }
-
-  for _, v := range s.Childs {
-    v.Update()
+  if !s.Flags.IsNested || s.ID == ROOT {
+    for _, v := range s.Childs {
+      v.Update()
+    }
   }
   s.Draw()
 }
@@ -408,15 +407,24 @@ func (s *Node) Editor() {
   shift := CAMERA.shift
   //pasting
   if rl.IsKeyPressed(rl.KeyV) && ctrl {
-    rl.UnloadTexture(s.Tex)
-    s.Tex = TextureFromClipboard()
-    s.hasImg = true
-    s.Theme.Rounded = false
-    s.Name = "image"
+    if text := TextFromClipboard(); text == "" {
+      rl.UnloadTexture(s.Tex)
+      s.Tex = TextureFromClipboard()
+      s.hasImg = true
+      s.Theme.Rounded = false
+      s.Name = "image"
+    }else {
+      s.E.Text = s.E.Text[:s.E.Pos] + text +  s.E.Text[s.E.Pos:]
+      s.E.Pos += len(text)
+    }
   }
 
   if rl.IsKeyPressed(rl.KeyEnter) && !shift {
-    s.AddLetter("\n")
+    if ctrl {
+      ROOT = s.ID
+    }else {
+      s.AddLetter("\n")
+    }
   }
   //typing
   if key != 0 && !ctrl{
@@ -426,7 +434,7 @@ func (s *Node) Editor() {
   }else if rl.IsKeyPressed(rl.KeyBackspace) {
     if shift {
       s.hasImg = false
-      s.Theme.Rounded = ROOT.Theme.Rounded
+      s.Theme.Rounded = NODES[ROOT].Theme.Rounded
       s.E.Text = ""
       s.E.Pos = 0
     }else if s.E.Pos - 1 >= 0 {
@@ -487,6 +495,8 @@ func (s *Node) Editor() {
         s.E.Pos = 0
       }
     }
+  }else if ctrl && rl.IsKeyPressed(rl.KeyR) {
+    s.Flags.IsNested = !s.Flags.IsNested
   }
 
   //add cursor
@@ -494,10 +504,6 @@ func (s *Node) Editor() {
 }
 
 func (s *Node) Draw() {
-  //draw childs first
-  for _, v := range s.Childs {
-    v.Draw()
-  }
 
   //create rectangle
   s.UpdateRect()
@@ -541,6 +547,8 @@ func (s *Node) Draw() {
   }else {
     rl.DrawTexture(s.Tex, x, y, rl.White)
   }
+
+  s.DrawFlags()
 }
 
 func (s *Node) Destroy() {
