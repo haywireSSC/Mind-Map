@@ -1,0 +1,114 @@
+@import url('https://fonts.googleapis.com/css2?family=Nova+Mono&family=Roboto&display=swap');
+
+:root {
+  --bakerloo: rgb(135, 78, 36);
+  --hammersmith: rgb(244, 169, 190);
+  --piccadilly: rgb(0, 25, 168);
+  --central: rgb(220, 36, 31);
+  --jubilee: rgb(161, 165, 167);
+  --victoria: rgb(0, 152, 216);
+  --circle: rgb(255, 211, 41);
+  --metropolitan: rgb(155, 0, 88);
+  --waterloo: rgb(147, 206, 186);
+  --district: rgb(0, 125, 50);
+  --northern: rgb(0, 0, 0);
+
+  --overground: rgb(232, 106, 16);
+  --elizabeth: rgb(147, 100, 204);
+  --safety: rgb(0, 96, 168);
+  --tramlink: rgb(0, 189, 25);
+  --docklands: rgb(0, 175, 173);
+}
+
+body, input {
+  font-family: 'Nova Mono', monospace;
+  font-weight: bolder;
+  background-color: white;
+  font-size: 20px;
+  text-align: center;
+  color: black;
+}
+
+table {
+  width: 25%;
+  border-collapse: seperate;
+  border-spacing: 0px 10px;
+}
+p {
+  white-space: pre-wrap;
+}
+
+.input-a {
+  color: white;
+  background-color: var(--piccadilly);
+}
+.input-a:hover {
+  background-color: white;
+  color: var(--piccadilly);
+}
+
+.input-b {
+  color: white;
+  background-color: var(--central);
+}
+.input-b:hover {
+  background-color: white;
+  color: var(--central);
+}
+
+.input-c {
+  color: black;
+  background-color: var(--circle);
+}
+.input-c:hover {
+  background-color: black;
+  color: var(--circle);
+}
+
+
+input {
+  border: 4px black solid;
+  border-radius: 20px;
+  margin: 10px;
+  padding: 20px;
+  text-align: center;
+  cursor: pointer;
+}
+
+input:active {
+  transform: translateY(5px);
+}
+
+
+
+tbody>tr>:nth-child(2) {
+  padding: 20px;
+  border-radius: 0px 20px 20px 0px;
+  border: 4px black solid;
+  border-left: none;
+}
+
+tbody>tr>:nth-child(1) {
+  padding: 20px;
+  border-radius: 20px 0px 0px 20px;
+  border: 4px black solid;
+  border-right: none;
+}
+
+#general tbody>tr>:nth-child(2) {
+  background-color: var(--circle);
+  color: black;
+}
+#general tbody>tr>:nth-child(1) {
+  background-color: black;
+  color: var(--circle);
+}
+
+#selected tbody>tr>:nth-child(1) {
+  background-color: var(--district);
+  color: white;
+}
+#selected tbody>tr>:nth-child(2) {
+  background-color: black);
+  color: var(--district);
+}
