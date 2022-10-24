@@ -7,6 +7,8 @@ import (
 type RootNode struct {
 	root       *Node
 	EditedNode *Node
+
+	SL *Node
 }
 
 type NodeTheme struct {

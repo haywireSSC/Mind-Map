@@ -42,6 +42,9 @@ type Node struct {
 	startDrag  rl.Vector2
 
 	Flags NodeFlags
+
+	SoftLinks  []*Node
+	slDragging bool
 }
 
 func NewNode(name string, x, y float32, id int) (inst *Node) {
@@ -260,6 +263,14 @@ func (s *Node) Update() {
 	if HANDLER.EditedNode != s {
 		s.DisableEditing()
 	}
+
+	if HANDLER.SL == s {
+		if !CAMERA.ctrl || (!rl.IsMouseButtonReleased(1) && !rl.IsMouseButtonDown(1)) {
+			HANDLER.SL = nil
+		}
+	} else {
+		s.slDragging = false
+	}
 	//dragging
 	var mouseHover bool
 	if s.Theme.Circle {
@@ -286,8 +297,8 @@ func (s *Node) Update() {
 
 	//hover actions
 	if mouseHover {
-		//ctrl := rl.IsKeyDown(rl.KeyLeftControl) || rl.IsKeyDown(rl.KeyRightControl)
-		shift := rl.IsKeyDown(rl.KeyLeftShift) || rl.IsKeyDown(rl.KeyRightShift)
+		ctrl := CAMERA.ctrl
+		shift := CAMERA.shift
 
 		if rl.IsMouseButtonReleased(0) && ManhatLength(rl.Vector2Subtract(s.Pos, s.startDrag)) < 10 {
 			if s.E.IsEditing {
@@ -298,13 +309,23 @@ func (s *Node) Update() {
 			}
 
 		} else if rl.IsMouseButtonPressed(1) && !s.dragging {
-			if !s.Flags.IsNested || s.ID == ROOT {
-				child := s.AddChild()
-				if shift {
-					child.AddToList()
+			if ctrl {
+				HANDLER.SL = s
+				s.slDragging = true
+			} else {
+				if !s.Flags.IsNested || s.ID == ROOT {
+					child := s.AddChild()
+					if shift {
+						child.AddToList()
+					}
 				}
 			}
-
+		} else if HANDLER.SL != nil && !s.slDragging && rl.IsMouseButtonReleased(1) && HANDLER.SL != nil {
+			if !slices.Contains(HANDLER.SL.SoftLinks, s) {
+				HANDLER.SL.SoftLinks = append(HANDLER.SL.SoftLinks, s)
+				HANDLER.SL.slDragging = false
+				HANDLER.SL = nil
+			}
 		}
 	}
 
